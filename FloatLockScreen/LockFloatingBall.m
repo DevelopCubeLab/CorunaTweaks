@@ -16,6 +16,21 @@
 }
 @end
 
+/// 创建一个View
+@interface FBFloatRootViewController : UIViewController
+@end
+
+@implementation FBFloatRootViewController
+/// 锁定界面方向为竖屏 不允许旋转这个VC
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+@end
+
 static UIWindow *gWindow;
 static UIButton *gButton;
 
@@ -40,21 +55,21 @@ static void FBLockDevice(void) {
     self = [super initWithFrame:CGRectMake(50, 200, 44, 44)];
     self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     self.layer.cornerRadius = 22;
-    
+
     UILabel *l = [[UILabel alloc] initWithFrame:self.bounds];
     l.text = @"🔒";
     l.font = [UIFont systemFontOfSize:22];
     l.textAlignment = NSTextAlignmentCenter;
     [self addSubview:l];
-    
+
     UIPanGestureRecognizer *pan =
     [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     [self addGestureRecognizer:pan];
-    
+
     UITapGestureRecognizer *tap =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
     [self addGestureRecognizer:tap];
-    
+
     return self;
 }
 
@@ -90,7 +105,7 @@ static void setupFloatingBall(void) {
     gWindow.windowLevel = 2600;
     gWindow.backgroundColor = UIColor.clearColor;
 
-    UIViewController *root = [UIViewController new];
+    UIViewController *root = [FBFloatRootViewController new];
     root.view.backgroundColor = UIColor.clearColor;
     gWindow.rootViewController = root;
 
